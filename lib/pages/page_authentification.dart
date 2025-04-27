@@ -20,6 +20,9 @@ class _PageAuthentificationState extends State<PageAuthentification> {
   @override
   void initState() {
     accountExists = true;
+
+    serviceAuthentification = ServiceAuthentification();
+
     emailController = TextEditingController();
     passwordController = TextEditingController();
     nameController = TextEditingController();
@@ -46,15 +49,15 @@ class _PageAuthentificationState extends State<PageAuthentification> {
   _handleAuthentication() async {
     if (accountExists) {
       await serviceAuthentification.signIn(
-        email: emailController.value as String,
-        password: passwordController.value as String,
+        email: emailController.text,
+        password: passwordController.text,
       );
     } else {
       await serviceAuthentification.signUp(
-        email: emailController.value as String,
-        password: passwordController.value as String,
-        surname: surnameController.value as String,
-        name: nameController.value as String,
+        email: emailController.text,
+        password: passwordController.text,
+        surname: surnameController.text,
+        name: nameController.text,
       );
     }
   }
