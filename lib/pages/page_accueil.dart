@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PageAccueil extends StatefulWidget {
@@ -15,7 +16,14 @@ class _PageAccueilState extends State<PageAccueil> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Page d\'accueil'),
       ),
-      body: Center(child: Text('Chti facebook')),
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return (snapshot.hasData)
+              ? const Center(child: Text('Vous êtes connecté'))
+              : const Center(child: Text('Vous n\'êtes pas connecté'));
+        },
+      ),
     );
   }
 }
