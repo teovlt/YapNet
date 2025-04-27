@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_teo/pages/page_authentification.dart';
 
 class PageAccueil extends StatefulWidget {
   const PageAccueil({super.key});
@@ -21,7 +22,7 @@ class _PageAccueilState extends State<PageAccueil> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return (snapshot.hasData)
               ? const Center(child: Text('Vous êtes connecté'))
-              : const Center(child: Text('Vous n\'êtes pas connecté'));
+              : const Center(child: PageAuthentification());
         },
       ),
     );
