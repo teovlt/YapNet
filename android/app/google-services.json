@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "474727594472",
+    "project_id": "chti-face-booc",
+    "storage_bucket": "chti-face-booc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474727594472:android:57f0763b825062f977cc5d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_facebook_teo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9ngv2eQbP565j86JFcxNJBHbvIw9rI3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
