@@ -16,6 +16,10 @@ class ServiceFirestore {
     firestoreMember.doc(id).update(data);
   }
 
+  specificMember(String memberId) {
+    return firestoreMember.doc(memberId).snapshots();
+  }
+
   updateImage({
     required File file,
     required String folder,
