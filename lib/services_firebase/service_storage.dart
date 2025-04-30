@@ -9,10 +9,10 @@ class ServiceStorage {
   Future<String> addImage({
     required File file,
     required String folder,
-    required String memberId,
+    required String userId,
     required String imageName,
   }) async {
-    final reference = ref.child(folder).child(memberId).child(imageName);
+    final reference = ref.child(folder).child(userId).child(imageName);
     UploadTask task = reference.putFile(file);
     TaskSnapshot snapshot = await task.whenComplete(() => null);
     String imageUrl = await snapshot.ref.getDownloadURL();

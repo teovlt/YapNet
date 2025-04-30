@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/avatar.dart';
+import 'package:flutter_facebook_teo/widgets/bouton_camera.dart';
 
 class PageProfil extends StatefulWidget {
   final Membre member;
@@ -43,7 +45,34 @@ class _PageProfilState extends State<PageProfil> {
                                 height: 200,
                                 width: MediaQuery.of(context).size.width,
                                 color: Theme.of(context).colorScheme.primary,
-                                child: const Center(),
+                                child:
+                                    (isMe)
+                                        ? Container(
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            image:
+                                                widget
+                                                        .member
+                                                        .coverPicture
+                                                        .isNotEmpty
+                                                    ? DecorationImage(
+                                                      image: NetworkImage(
+                                                        widget
+                                                            .member
+                                                            .coverPicture,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                    : null,
+                                          ),
+                                          child: BoutonCamera(
+                                            type: profilePictureKey,
+                                            userId: widget.member.id,
+                                          ),
+                                        )
+                                        : Center(),
                               ),
                             ],
                           ),
@@ -54,6 +83,12 @@ class _PageProfilState extends State<PageProfil> {
                         alignment: Alignment.bottomLeft,
                         children: [
                           Avatar(radius: 75, url: widget.member.profilePicture),
+                          (isMe)
+                              ? BoutonCamera(
+                                type: profilePictureKey,
+                                userId: widget.member.id,
+                              )
+                              : Center(),
                         ],
                       ),
                     ],

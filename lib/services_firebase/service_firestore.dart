@@ -24,19 +24,19 @@ class ServiceFirestore {
   updateImage({
     required File file,
     required String folder,
-    required String memberId,
+    required String userId,
     required String imageName,
   }) {
     ServiceStorage()
         .addImage(
           file: file,
           folder: folder,
-          memberId: memberId,
+          userId: userId,
           imageName: imageName,
         )
         .then(
           (imageUrl) => {
-            updateMember(id: memberId, data: {imageName: imageUrl}),
+            updateMember(id: userId, data: {imageName: imageUrl}),
           },
         );
   }

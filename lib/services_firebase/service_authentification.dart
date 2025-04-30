@@ -45,7 +45,10 @@ class ServiceAuthentification {
   String? get myId => instance.currentUser?.uid;
 
   bool isMe(String id) {
-    bool result = false;
-    return result;
+    if (myId == null) {
+      return false;
+    } else {
+      return myId == id;
+    }
   }
 }
