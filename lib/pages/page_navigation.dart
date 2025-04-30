@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
+import 'package:flutter_facebook_teo/pages/page_accueil.dart';
+import 'package:flutter_facebook_teo/pages/page_profil.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/widget_vide.dart';
@@ -34,11 +36,11 @@ class _PageNavigationState extends State<PageNavigation> {
                 map: data.data() as Map<String, dynamic>,
               );
               List<Widget> bodies = [
-                const Center(child: Text('Accueil')),
+                PageAccueil(),
                 const Center(child: Text('Membre')),
                 const Center(child: Text('Ecrir un post')),
                 const Center(child: Text('Notifications')),
-                const Center(child: Text('Profil')),
+                PageProfil(member: member),
               ];
               return Scaffold(
                 appBar: AppBar(
