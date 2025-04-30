@@ -7,6 +7,7 @@ import 'package:flutter_facebook_teo/services_firebase/service_storage.dart';
 class ServiceFirestore {
   static final instance = FirebaseFirestore.instance;
   final firestoreMember = instance.collection(memberCollectionKey);
+  final firestorePost = instance.collection(postCollectionKey);
 
   addMember({required String id, required Map<String, dynamic> data}) {
     firestoreMember.doc(id).set(data);
@@ -38,5 +39,13 @@ class ServiceFirestore {
             updateMember(id: memberId, data: {imageName: imageUrl}),
           },
         );
+  }
+
+  allPosts() {
+    return firestorePost.orderBy(dateKey, descending: true).snapshots();
+  }
+
+  postForMember(String memberId) {
+    return firestorePost.where(memberIdKey, isEqualTo: memberId).snapshots();
   }
 }
