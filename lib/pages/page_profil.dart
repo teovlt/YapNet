@@ -44,13 +44,9 @@ class _PageProfilState extends State<PageProfil> {
           }
 
           final data = snapshot.data;
-          if (data == null) {
-            return const Center(child: Text('No posts available.'));
-          }
-
-          final docs = data.docs;
+          final docs = data?.docs ?? [];
           final length = docs.length;
-          final indexToAdd = (isMe) ? 2 : 1;
+          final indexToAdd = isMe ? 2 : 1;
 
           return ListView.builder(
             itemCount: length + indexToAdd,
@@ -107,7 +103,7 @@ class _PageProfilState extends State<PageProfil> {
                                   url:
                                       widget.member.profilePicture.isNotEmpty
                                           ? widget.member.profilePicture
-                                          : '', // Handle null or empty profile picture
+                                          : '',
                                 ),
                               ),
                               if (isMe)
@@ -200,6 +196,19 @@ class _PageProfilState extends State<PageProfil> {
                             indent: 0,
                             endIndent: 0,
                           ),
+                          if (docs.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                'Aucune publication',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  color: Colors.grey,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -216,7 +225,7 @@ class _PageProfilState extends State<PageProfil> {
                 );
                 return WidgetPost(post: post);
               } else {
-                return const EmptyBody(message: 'Aucune publication');
+                return const SizedBox.shrink();
               }
             },
           );
