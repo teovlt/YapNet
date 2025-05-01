@@ -26,6 +26,14 @@ class ServiceFirestore {
     return firestoreMember.doc(memberId).snapshots();
   }
 
+  Future<Map<String, dynamic>?> getMember(String memberId) async {
+    final doc = await firestoreMember.doc(memberId).get();
+    if (doc.exists) {
+      return doc.data() as Map<String, dynamic>;
+    }
+    return null;
+  }
+
   Future<void> updateImage({
     required File file,
     required String folder,
@@ -120,5 +128,11 @@ class ServiceFirestore {
         .collection(commentCollectionKey)
         .orderBy(dateKey, descending: true)
         .snapshots();
+  }
+
+  getCommentsNumber(String postId) async {
+    final snapshot =
+        await firestorePost.doc(postId).collection(commentCollectionKey).get();
+    return snapshot.docs.length;
   }
 }
