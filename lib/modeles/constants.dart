@@ -18,6 +18,12 @@ String postImageKey = 'image';
 String dateKey = 'date';
 String likesKey = 'likes';
 
+//Comment
+String commentIdKey = 'commentID';
+String commentTextKey = 'text';
+String commentDateKey = 'date';
+String commentMemberIdKey = 'memberID';
+
 //Notification
 String fromKey = 'from';
 String isReadKey = 'read';

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
 import 'package:flutter_facebook_teo/modeles/post.dart';
+import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -97,5 +98,27 @@ class ServiceFirestore {
         likesKey: FieldValue.arrayUnion([memberID]),
       });
     }
+  }
+
+  addComment({required Post post, required String text}) async {
+    final memberId = ServiceAuthentification().myId;
+    final date = DateTime.now().millisecondsSinceEpoch;
+
+    if (memberId == null) return;
+
+    Map<String, dynamic> map = {
+      memberIdKey: memberId,
+      textKey: text,
+      dateKey: date,
+    };
+    post.reference.collection(commentCollectionKey).doc().set(map);
+  }
+
+  postComment(String postId) {
+    return firestorePost
+        .doc(postId)
+        .collection(commentCollectionKey)
+        .orderBy(dateKey, descending: true)
+        .snapshots();
   }
 }
