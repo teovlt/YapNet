@@ -14,7 +14,7 @@ class BoutonCamera extends StatelessWidget {
   _takePicture(ImageSource source, String type) async {
     final XFile? xFile = await ImagePicker().pickImage(
       source: source,
-      maxWidth: 500,
+      maxWidth: 800,
     );
     if (xFile == null) return;
     ServiceFirestore().updateImage(

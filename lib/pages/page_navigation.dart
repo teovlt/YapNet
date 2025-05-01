@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
 import 'package:flutter_facebook_teo/pages/page_accueil.dart';
+import 'package:flutter_facebook_teo/pages/page_ecriture_post.dart';
 import 'package:flutter_facebook_teo/pages/page_membres.dart';
 import 'package:flutter_facebook_teo/pages/page_profil.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
@@ -39,7 +40,7 @@ class _PageNavigationState extends State<PageNavigation> {
               List<Widget> bodies = [
                 PageAccueil(),
                 PageMembres(),
-                const Center(child: Text('Ecrire une publication')),
+                PageEcriturePost(member: member),
                 const Center(child: Text('Notifications')),
                 PageProfil(member: member),
               ];
