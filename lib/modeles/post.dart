@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_facebook_teo/modeles/constants.dart';
 
 class Post {
   DocumentReference reference;
@@ -7,9 +8,9 @@ class Post {
 
   Post({required this.reference, required this.id, required this.map});
 
-  String get member => map['memberIdKey'] ?? '';
-  String get text => map['textKey'] ?? '';
-  String get image => map['postImageKey'] ?? '';
-  int get date => map['dateKey'] ?? 0;
-  List<dynamic> get likes => map['likesKey'] ?? [];
+  String get member => map[memberIdKey] ?? '';
+  String get text => map[textKey] ?? '';
+  String get image => map[postImageKey] ?? '';
+  int get date => map[dateKey] ?? 0;
+  List<dynamic> get likes => map[likesKey] ?? [];
 }
