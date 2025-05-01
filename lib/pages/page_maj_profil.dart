@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
-import 'package:flutter_facebook_teo/pages/page_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 
 class PageMajProfil extends StatefulWidget {

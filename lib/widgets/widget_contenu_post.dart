@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/post.dart';
+import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
+import 'package:flutter_facebook_teo/widgets/avatar.dart';
 
 class WidgetContenuPost extends StatelessWidget {
   final Post post;
@@ -7,34 +11,49 @@ class WidgetContenuPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Row(children: [Text("a")]),
-          ],
-        ),
-      ),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: ServiceFirestore().specificMember(post.member),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        }
+
+        final data = snapshot.data!.data() as Map<String, dynamic>;
+        final profilePicture = data[profilePictureKey] ?? '';
+        final name = data[nameKey] ?? '';
+        final surname = data[surnameKey] ?? '';
+
+        return Card(
+          margin: const EdgeInsets.all(8),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Avatar(radius: 15, url: profilePicture),
+                    const SizedBox(width: 8),
+                    Text(
+                      '$name $surname',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                if (post.image.isNotEmpty)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(post.image),
+                  ),
+                const SizedBox(height: 12),
+                Text(post.text),
+                const SizedBox(height: 12),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
-
-
-// Card
-// Container
-// Column
-// Row
-// Avatar(rayon de 15 et photo de l’émetteur du post)
-// Text(nom complet de l’émeteur du post)
-// DateHandler(date d’émission du post)
-// Si imageUrl alors
-// Image.network
-// Sinon
-// Container(vide)
-// Text(texte du post)
-// Row
-// IconButton(Icon.star)
-// Text(nombre de likes)
-// IconButton(Icon.messenger)
-// Text(commenter)
