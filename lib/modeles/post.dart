@@ -9,7 +9,7 @@ class Post {
 
   String get member => map['memberIdKey'] ?? '';
   String get text => map['textKey'] ?? '';
-  String get imageUrl => map['postImageKey'] ?? '';
+  String get image => map['postImageKey'] ?? '';
   int get date => map['dateKey'] ?? 0;
   List<dynamic> get likes => map['likesKey'] ?? [];
 }
