@@ -28,7 +28,7 @@ class BoutonCamera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.camera_alt),
+      icon: const Icon(Icons.camera_alt, color: Colors.white),
       onPressed: () {
         _takePicture(ImageSource.camera, type);
       },

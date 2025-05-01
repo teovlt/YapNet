@@ -50,6 +50,9 @@ class ServiceFirestore {
   }
 
   postForMember(String memberId) {
-    return firestorePost.where(memberIdKey, isEqualTo: memberId).snapshots();
+    return firestorePost
+        .where(memberIdKey, isEqualTo: memberId)
+        // .orderBy(dateKey, descending: true)
+        .snapshots();
   }
 }

@@ -10,7 +10,7 @@ class WidgetPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 8,
+      elevation: 10,
       child: Container(
         padding: EdgeInsets.all(5),
         child: Column(
