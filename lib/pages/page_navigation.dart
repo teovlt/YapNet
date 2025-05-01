@@ -44,7 +44,7 @@ class _PageNavigationState extends State<PageNavigation> {
               ];
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(member.fullname),
+                  title: Text('Cht\'i Face Bouc'),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   actions: [
                     IconButton(

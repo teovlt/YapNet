@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
+import 'package:flutter_facebook_teo/pages/page_maj_profil.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/avatar.dart';
@@ -32,6 +33,7 @@ class _PageProfilState extends State<PageProfil> {
           itemBuilder: (context, index) {
             if (index == 0) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     alignment: Alignment.bottomLeft,
@@ -46,7 +48,7 @@ class _PageProfilState extends State<PageProfil> {
                                 width: MediaQuery.of(context).size.width,
                                 color: Theme.of(context).colorScheme.primary,
                                 child:
-                                    (isMe)
+                                    isMe
                                         ? Container(
                                           height: 200,
                                           width:
@@ -83,7 +85,7 @@ class _PageProfilState extends State<PageProfil> {
                         alignment: Alignment.bottomLeft,
                         children: [
                           Avatar(radius: 75, url: widget.member.profilePicture),
-                          (isMe)
+                          isMe
                               ? BoutonCamera(
                                 type: profilePictureKey,
                                 userId: widget.member.id,
@@ -93,16 +95,44 @@ class _PageProfilState extends State<PageProfil> {
                       ),
                     ],
                   ),
-                  Text(
-                    widget.member.fullname,
-                    style: Theme.of(context).textTheme.titleLarge,
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      widget.member.fullname,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   ),
                   const Divider(),
-                  Text(widget.member.description),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      widget.member.description,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  if (isMe)
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => PageMajProfil(member: widget.member),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.edit),
+                        label: const Text("Modifier le profil"),
+                      ),
+                    ),
                 ],
               );
             }
-            return null;
+
+            return null; // À remplacer par le rendu des publications si nécessaire
           },
         );
       },
