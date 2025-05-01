@@ -47,14 +47,27 @@ class ListCommentaire extends StatelessWidget {
                 }
                 final member = snapshotUser.data!;
                 final profileUrl = member[profilePictureKey];
-                final name = member[nameKey];
                 final dateFormatted = FormatageDate().formatted(
                   document[dateKey],
                 );
                 return ListTile(
                   leading: Avatar(radius: 20, url: profileUrl),
                   title: Text(document[textKey]),
-                  subtitle: Text('$name · $dateFormatted'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "par ${member[surnameKey]} ${member[nameKey]}",
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          Spacer(),
+                          Text(dateFormatted),
+                        ],
+                      ),
+                    ],
+                  ),
                 );
               },
             );
