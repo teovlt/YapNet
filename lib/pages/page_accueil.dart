@@ -19,11 +19,11 @@ class PageAccueil extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return const Center(child: Text('Erreur de chargement'));
+          return const EmptyBody(message: "Erreur de chargement");
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const EmptyBody();
+          return const EmptyBody(message: "Aucune publication trouvée");
         }
 
         return ListView.builder(

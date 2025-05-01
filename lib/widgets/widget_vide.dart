@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class EmptyBody extends StatelessWidget {
-  const EmptyBody({super.key});
+  final String? message;
+  const EmptyBody({super.key, this.message = "Aucun contenu disponible"});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Aucune données"));
+    return Center(child: Text(message!));
   }
 }
 
