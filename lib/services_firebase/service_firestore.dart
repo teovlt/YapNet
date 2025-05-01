@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_storage.dart';
 
@@ -21,24 +22,24 @@ class ServiceFirestore {
     return firestoreMember.doc(memberId).snapshots();
   }
 
-  updateImage({
+  Future<void> updateImage({
     required File file,
     required String folder,
     required String userId,
     required String imageName,
-  }) {
-    ServiceStorage()
-        .addImage(
-          file: file,
-          folder: folder,
-          userId: userId,
-          imageName: imageName,
-        )
-        .then(
-          (imageUrl) => {
-            updateMember(id: userId, data: {imageName: imageUrl}),
-          },
-        );
+  }) async {
+    try {
+      final String downloadUrl = await ServiceStorage().addImage(
+        file: file,
+        folder: folder,
+        userId: userId,
+        imageName: imageName,
+      );
+
+      await updateMember(id: userId, data: {imageName: downloadUrl});
+    } catch (e) {
+      debugPrint('Error updating image: $e');
+    }
   }
 
   allPosts() {
@@ -52,7 +53,7 @@ class ServiceFirestore {
   postForMember(String memberId) {
     return firestorePost
         .where(memberIdKey, isEqualTo: memberId)
-        // .orderBy(dateKey, descending: true)
+        .orderBy(dateKey, descending: true)
         .snapshots();
   }
 }

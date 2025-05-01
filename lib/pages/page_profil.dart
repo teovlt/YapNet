@@ -9,7 +9,6 @@ import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/avatar.dart';
 import 'package:flutter_facebook_teo/widgets/bouton_camera.dart';
 import 'package:flutter_facebook_teo/widgets/widget_post.dart';
-import 'package:flutter_facebook_teo/widgets/widget_vide.dart';
 
 class PageProfil extends StatefulWidget {
   final Membre member;

@@ -12,10 +12,14 @@ class ServiceStorage {
     required String userId,
     required String imageName,
   }) async {
-    final reference = ref.child(folder).child(userId).child(imageName);
+    final reference = FirebaseStorage.instance
+        .ref()
+        .child(folder)
+        .child(userId)
+        .child(imageName);
+
     UploadTask task = reference.putFile(file);
-    TaskSnapshot snapshot = await task.whenComplete(() => null);
-    String imageUrl = await snapshot.ref.getDownloadURL();
-    return imageUrl;
+    TaskSnapshot snapshot = await task;
+    return await snapshot.ref.getDownloadURL();
   }
 }
