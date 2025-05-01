@@ -22,6 +22,10 @@ class _PageProfilState extends State<PageProfil> {
     return StreamBuilder<QuerySnapshot>(
       stream: ServiceFirestore().postForMember(widget.member.id),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         final data = snapshot.data;
         final docs = data?.docs;
         final length = docs?.length ?? 0;
@@ -131,8 +135,7 @@ class _PageProfilState extends State<PageProfil> {
                 ],
               );
             }
-
-            return null; // À remplacer par le rendu des publications si nécessaire
+            return const SizedBox.shrink();
           },
         );
       },
