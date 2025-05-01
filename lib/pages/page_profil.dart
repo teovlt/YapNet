@@ -19,126 +19,140 @@ class PageProfil extends StatefulWidget {
 class _PageProfilState extends State<PageProfil> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: ServiceFirestore().postForMember(widget.member.id),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    final isMe = ServiceAuthentification().isMe(widget.member.id);
 
-        final data = snapshot.data;
-        final docs = data?.docs;
-        final length = docs?.length ?? 0;
-        final isMe = ServiceAuthentification().isMe(widget.member.id);
-        final indexToAdd = (isMe) ? 2 : 1;
+    return Scaffold(
+      appBar:
+          isMe
+              ? null
+              : AppBar(
+                title: Text(widget.member.fullname),
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: ServiceFirestore().postForMember(widget.member.id),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        return ListView.builder(
-          itemCount: length + indexToAdd,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    alignment: Alignment.bottomLeft,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 200,
-                                width: MediaQuery.of(context).size.width,
-                                color: Theme.of(context).colorScheme.primary,
-                                child:
-                                    isMe
-                                        ? Container(
-                                          height: 200,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            image:
-                                                widget
-                                                        .member
-                                                        .coverPicture
-                                                        .isNotEmpty
-                                                    ? DecorationImage(
-                                                      image: NetworkImage(
-                                                        widget
-                                                            .member
-                                                            .coverPicture,
-                                                      ),
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                    : null,
-                                          ),
-                                          child: BoutonCamera(
-                                            type: profilePictureKey,
+          final data = snapshot.data;
+          final docs = data?.docs;
+          final length = docs?.length ?? 0;
+          final indexToAdd = (isMe) ? 2 : 1;
+
+          return ListView.builder(
+            itemCount: length + indexToAdd,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomLeft,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  height: 200,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    image:
+                                        widget.member.coverPicture.isNotEmpty
+                                            ? DecorationImage(
+                                              image: NetworkImage(
+                                                widget.member.coverPicture,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            )
+                                            : null,
+                                  ),
+                                  child:
+                                      isMe
+                                          ? BoutonCamera(
+                                            type: coverPictureKey,
                                             userId: widget.member.id,
-                                          ),
-                                        )
-                                        : Center(),
+                                          )
+                                          : null,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 25),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: Avatar(
+                                  radius: 75,
+                                  url: widget.member.profilePicture,
+                                ),
                               ),
+                              if (isMe)
+                                Center(
+                                  child: BoutonCamera(
+                                    type: profilePictureKey,
+                                    userId: widget.member.id,
+                                  ),
+                                ),
                             ],
                           ),
-                          const SizedBox(height: 25),
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.bottomLeft,
-                        children: [
-                          Avatar(radius: 75, url: widget.member.profilePicture),
-                          isMe
-                              ? BoutonCamera(
-                                type: profilePictureKey,
-                                userId: widget.member.id,
-                              )
-                              : Center(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      widget.member.fullname,
-                      style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
                     ),
-                  ),
-                  const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      widget.member.description,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                  if (isMe)
+                    const SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (_) => PageMajProfil(member: widget.member),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.edit),
-                        label: const Text("Modifier le profil"),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        widget.member.fullname,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
-                ],
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        );
-      },
+                    const Divider(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        widget.member.description,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    if (isMe)
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => PageMajProfil(member: widget.member),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.edit),
+                          label: const Text("Modifier le profil"),
+                        ),
+                      ),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          );
+        },
+      ),
     );
   }
 }
