@@ -4,6 +4,7 @@ import 'package:flutter_facebook_teo/modeles/membre.dart';
 import 'package:flutter_facebook_teo/pages/page_accueil.dart';
 import 'package:flutter_facebook_teo/pages/page_ecriture_post.dart';
 import 'package:flutter_facebook_teo/pages/page_membres.dart';
+import 'package:flutter_facebook_teo/pages/page_notifications.dart';
 import 'package:flutter_facebook_teo/pages/page_profil.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
@@ -41,7 +42,7 @@ class _PageNavigationState extends State<PageNavigation> {
                 PageAccueil(),
                 PageMembres(),
                 PageEcriturePost(member: member),
-                const Center(child: Text('Notifications')),
+                PageNotifications(member: member),
                 PageProfil(member: member),
               ];
               return Scaffold(

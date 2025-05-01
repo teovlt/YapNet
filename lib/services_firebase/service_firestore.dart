@@ -105,6 +105,15 @@ class ServiceFirestore {
       post.reference.update({
         likesKey: FieldValue.arrayUnion([memberID]),
       });
+
+      if (post.member != memberID) {
+        await sendNotification(
+          from: memberID,
+          to: post.member,
+          text: "Votre post a reçu un like 👍",
+          postId: post.id,
+        );
+      }
     }
   }
 
@@ -119,7 +128,17 @@ class ServiceFirestore {
       textKey: text,
       dateKey: date,
     };
-    post.reference.collection(commentCollectionKey).doc().set(map);
+
+    await post.reference.collection(commentCollectionKey).doc().set(map);
+
+    if (post.member != memberId) {
+      await sendNotification(
+        from: memberId,
+        to: post.member,
+        text: "Vous avez reçu un commentaire sur votre post",
+        postId: post.id,
+      );
+    }
   }
 
   postComment(String postId) {
@@ -134,5 +153,43 @@ class ServiceFirestore {
     final snapshot =
         await firestorePost.doc(postId).collection(commentCollectionKey).get();
     return snapshot.docs.length;
+  }
+
+  sendNotification({
+    required String to,
+    required String from,
+    required String text,
+    required String postId,
+  }) async {
+    final date = DateTime.now().millisecondsSinceEpoch;
+    final memberId = ServiceAuthentification().myId;
+
+    if (memberId == null) return;
+
+    Map<String, dynamic> map = {
+      dateKey: date,
+      isReadKey: false,
+      fromKey: from,
+      textKey: text,
+      postIdKey: postId,
+    };
+
+    await firestoreMember
+        .doc(to)
+        .collection(notificationCollectionKey)
+        .doc()
+        .set(map);
+  }
+
+  markRead(DocumentReference reference) {
+    reference.update({isReadKey: true});
+  }
+
+  notificationForUser(String id) {
+    return firestoreMember
+        .doc(id)
+        .collection(notificationCollectionKey)
+        .orderBy(dateKey, descending: true)
+        .snapshots();
   }
 }
