@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/post.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_authentification.dart';
+import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/widget_contenu_post.dart';
 
 class WidgetPost extends StatelessWidget {
@@ -21,12 +23,17 @@ class WidgetPost extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ServiceFirestore().addLike(
+                      memberID: FirebaseAuth.instance.currentUser!.uid,
+                      post: post,
+                    );
+                  },
                   icon: Icon(
                     Icons.star,
                     color:
                         post.likes.contains(ServiceAuthentification().myId!)
-                            ? Theme.of(context).colorScheme.primary
+                            ? Colors.amber
                             : Theme.of(context).colorScheme.secondary,
                   ),
                 ),

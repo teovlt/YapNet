@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
+import 'package:flutter_facebook_teo/modeles/post.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -84,5 +85,17 @@ class ServiceFirestore {
     }
 
     await firestorePost.doc().set(map);
+  }
+
+  addLike({required String memberID, required Post post}) async {
+    if (post.likes.contains(memberID)) {
+      post.reference.update({
+        likesKey: FieldValue.arrayRemove([memberID]),
+      });
+    } else {
+      post.reference.update({
+        likesKey: FieldValue.arrayUnion([memberID]),
+      });
+    }
   }
 }

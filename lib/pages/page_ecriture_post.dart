@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/membre.dart';
-import 'package:flutter_facebook_teo/pages/page_accueil.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
