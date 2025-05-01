@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_teo/modeles/constants.dart';
+import 'package:flutter_facebook_teo/modeles/formatage_date.dart';
 import 'package:flutter_facebook_teo/modeles/post.dart';
 import 'package:flutter_facebook_teo/services_firebase/service_firestore.dart';
 import 'package:flutter_facebook_teo/widgets/avatar.dart';
@@ -38,6 +39,8 @@ class WidgetContenuPost extends StatelessWidget {
                       '$name $surname',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    Spacer(),
+                    Text(FormatageDate().formatted(post.date)),
                   ],
                 ),
                 const SizedBox(height: 12),
