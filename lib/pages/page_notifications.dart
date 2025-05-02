@@ -21,26 +21,34 @@ class _PageNotificationsState extends State<PageNotifications> {
       body: StreamBuilder<QuerySnapshot>(
         stream: ServiceFirestore().notificationForUser(widget.member.id),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<DocumentSnapshot> notifications = snapshot.data!.docs;
-
-            return ListView.separated(
-              padding: const EdgeInsets.all(8),
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                final notification = NotificationModel(
-                  id: notifications[index].id,
-                  reference: notifications[index].reference,
-                  data: notifications[index].data() as Map<String, dynamic>,
-                );
-
-                return WidgetNotif(notification: notification);
-              },
-            );
-          } else {
-            return EmptyBody();
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           }
+
+          if (snapshot.hasError) {
+            return const Center(child: Text("Erreur lors du chargement"));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const EmptyBody(message: "Aucune notification");
+          }
+
+          List<DocumentSnapshot> notifications = snapshot.data!.docs;
+
+          return ListView.separated(
+            padding: const EdgeInsets.all(8),
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemCount: notifications.length,
+            itemBuilder: (context, index) {
+              final notification = NotificationModel(
+                id: notifications[index].id,
+                reference: notifications[index].reference,
+                data: notifications[index].data() as Map<String, dynamic>,
+              );
+
+              return WidgetNotif(notification: notification);
+            },
+          );
         },
       ),
     );
