@@ -67,49 +67,85 @@ class _PageAuthentificationState extends State<PageAuthentification> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image(image: Image.asset('assets/image/auth.jpg').image),
-              SegmentedButton(
+              const Text(
+                'Cht\'i Face Bouc',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset('assets/image/auth.jpg', fit: BoxFit.cover),
+              ),
+              const SizedBox(height: 24),
+              SegmentedButton<bool>(
                 segments: const [
                   ButtonSegment<bool>(value: true, label: Text('Connexion')),
                   ButtonSegment<bool>(value: false, label: Text('Inscription')),
                 ],
                 selected: {accountExists},
                 onSelectionChanged: _onSelectedChanged,
+                style: ButtonStyle(
+                  padding: WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 24),
+                  ),
+                ),
               ),
+              const SizedBox(height: 24),
               Card(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(labelText: 'Email'),
-                    ),
-                    TextField(
-                      controller: passwordController,
-                      decoration: InputDecoration(labelText: 'Mot de passe'),
-                      obscureText: true,
-                    ),
-                    if (!accountExists)
-                      Column(
-                        children: [
-                          TextField(
-                            controller: surnameController,
-                            decoration: InputDecoration(labelText: 'Prénom'),
-                          ),
-                          TextField(
-                            controller: nameController,
-                            decoration: InputDecoration(labelText: 'Nom'),
-                          ),
-                        ],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: emailController,
+                        decoration: const InputDecoration(labelText: 'Email'),
                       ),
-                    Center(
-                      child: TextButton(
-                        onPressed: _handleAuthentication,
-                        child: const Text('C\'est parti !'),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Mot de passe',
+                        ),
+                        obscureText: true,
                       ),
-                    ),
-                  ],
+                      if (!accountExists) ...[
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: surnameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Prénom',
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: nameController,
+                          decoration: const InputDecoration(labelText: 'Nom'),
+                        ),
+                      ],
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _handleAuthentication,
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('Cht\'i parti !'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
