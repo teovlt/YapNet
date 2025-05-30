@@ -71,14 +71,9 @@ class _PageAuthentificationState extends State<PageAuthentification> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'YapNet',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset('assets/image/auth.jpg', fit: BoxFit.cover),
+                child: Image.asset('assets/image/logo.png', fit: BoxFit.cover),
               ),
               const SizedBox(height: 24),
               SegmentedButton<bool>(
