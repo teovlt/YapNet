@@ -72,7 +72,7 @@ class _PageAuthentificationState extends State<PageAuthentification> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Cht\'i Face Bouc',
+                'YapNet',
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -141,7 +141,7 @@ class _PageAuthentificationState extends State<PageAuthentification> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text('Cht\'i parti !'),
+                          child: const Text('Valider'),
                         ),
                       ),
                     ],

@@ -47,7 +47,7 @@ class _PageNavigationState extends State<PageNavigation> {
               ];
               return Scaffold(
                 appBar: AppBar(
-                  title: Text('Cht\'i Face Bouc'),
+                  title: Text('YapNet'),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   actions: [
                     IconButton(
