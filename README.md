@@ -1,8 +1,2 @@
-# flutter_facebook_teo
+# YapNet
 
-A new Flutter project.
-
-## Demo user
-
-identifiant : a@gmail.com
-password : aaaaaa
